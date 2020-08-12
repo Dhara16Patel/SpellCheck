@@ -1,0 +1,334 @@
+<html><head>
+	<title>Wordlists Online</title>
+	
+	<link rel="icon" href="icon.png">
+	<link rel="shortcut icon" href="icon.png">
+	<link rel="image_src" href="icon.png">
+	<meta property="og:image" content="icon.png">
+	<meta name="viewport" content="width=700">
+	<meta name="description" content="This website allows you to generate a list of English language words based on your search criteria.  You can search based on prefixes &amp; suffixes, containment &amp; counting, or regular &amp; mask expressions.">
+	
+	<style>
+		/* B3AF5D, 54BFA5, 787878, 959595 */
+		div.tabs{
+			width: 475px;
+			text-align: left;
+			padding: 7px;
+			color: #FAFAFA;
+			background-color: #787878;
+			border-radius: 17px;
+			cursor: pointer;
+            max-height: 99999999px;
+		}
+		div.tabs:hover{
+			background-color: #959595;
+		}
+		#outputTab{
+			width: 450px;
+			text-align: left;
+			padding: 6px;
+			color: #FAFAFA;
+			background-color: #383838;
+			border-radius: 5px;
+			cursor: pointer;
+            max-height: 99999999px;
+		}
+		#outputTab:hover{
+			background-color: #484848;
+		}
+		#outputList{
+			width: 445px;
+			text-align: left;
+            max-height: 99999999px;
+		}
+		div.menu{
+			width: 425px;
+			text-align: left;
+            max-height: 99999999px;
+		}
+		div.searchButton{
+			width: 90px;
+			text-align: center;
+			padding: 6px;
+			color: #FAFAFA;
+			background-color: #54BFA5;
+			border-radius: 15px;
+			cursor: pointer;
+		}
+		div.searchButton:hover{
+			background-color: #64CFB5;
+		}
+		div.footer{
+			width: 550px;
+			font-size: 15px;
+			color: #444444;
+            max-height: 99999999px;
+		}
+	</style>
+<style id="__web-inspector-hide-shortcut-style__">
+.__web-inspector-hide-shortcut__, .__web-inspector-hide-shortcut__ *, .__web-inspector-hidebefore-shortcut__::before, .__web-inspector-hideafter-shortcut__::after
+{
+    visibility: hidden !important;
+}
+</style></head>
+
+<body onkeypress="checkEnter(event)">
+
+	<center>
+	<br><br>
+	
+	<img width="375" src="img/background.png" alt="Wordlists Online" title="Wordlists Online">
+	<br><br>
+	
+	<p style="width: 500px; text-align: left; font-size: 19px; max-height: 99999999px;"><b>Description:</b> This website allows you to generate a list of English language words based on your search criteria.  You can search based on prefixes &amp; suffixes, containment &amp; counting, or regular &amp; mask expressions.</p>
+	
+	<br><br>
+
+	<div class="tabs" onclick="expand('0')">&nbsp;&nbsp; Prefixes &amp; Suffixes</div>
+	<div id="menu0" class="menu" style="display: none;">
+		<br><br>
+		<b>Type:</b>&nbsp;&nbsp;
+		<select id="select0">
+			<option value="option0">Prefix</option>
+			<option value="option1">Suffix</option>
+		</select>
+		<br><br>
+		
+		<b>Input:</b>&nbsp;
+		<input type="text" id="tab0input0">
+		<br><br>
+		
+		<div class="searchButton" onclick="searchButton('0')">Search</div>
+		<br>
+	</div>
+	<br>
+	
+	<div class="tabs" onclick="expand('1')">&nbsp;&nbsp; Containment &amp; Counting</div>
+	<div id="menu1" class="menu" style="display: none;">
+		<br><br>		
+		<b>Contains:</b>&nbsp;
+		<input type="text" id="tab1input0">
+		<br><br>
+		
+		<b>At Least:</b>&nbsp;
+		<input type="text" id="tab1input1" value="1">
+		<br><br>
+		
+		<div class="searchButton" onclick="searchButton('1')">Search</div>
+		<br>
+	</div>
+	<br>
+	
+	<div class="tabs" onclick="expand('2')">&nbsp;&nbsp; Regular &amp; Mask Expressions</div>
+	<div id="menu2" class="menu" style="display: none;">
+		<br><br>
+		<b>Type:</b>&nbsp;&nbsp;
+		<select id="select2">
+			<option value="option0">Regular Expression</option>
+			<option value="option1">Mask Expression</option>
+		</select>
+		<br><br>
+		
+		<b>Expression:</b>&nbsp;
+		<input type="text" id="tab2input0">
+		<br><br>
+		
+		<div class="searchButton" onclick="searchButton('2')">Search</div>
+	</div>
+	<br><br><br>
+	
+	<div id="outputDiv" style="display: none; max-height: 99999999px;">
+		<div id="outputTab" onclick="clearOutput()">&nbsp;&nbsp; Output List</div><br>
+		<div id="outputList"></div>
+	</div>
+	<br>
+	
+	<div class="footer">
+		<hr><br>
+		<center>
+			Related pages: <a href="https://WordofTheHour.org">Word of The Hour</a>, <a href="http://michaelwehar.com/spellchecker/">Spell Checker</a>
+			<p class="__web-inspector-hide-shortcut__">Created by: Michael Wehar.</p><br>
+			
+			<br><br>
+		</center>
+	</div>
+	
+	</center>
+	
+	<script src="http://michaelwehar.com/wordlists/js/word.js"></script>
+	<script>
+	
+		var currentTab = -1;
+		var open = [false, false, false];
+	
+		// **Key Press**
+		function checkEnter(event){
+			if(event.keyCode == 13){
+				if(currentTab >= 0 && open[currentTab]){
+					searchButton("" + currentTab);
+				}
+			}
+		}
+	
+		// **UI FUNCTIONS**
+		function clearOutput(){
+			document.getElementById("outputDiv").style.display = "none";
+		}
+		
+		function clearList(){
+			document.getElementById("outputList").innerHTML = "";
+		}
+		
+		function updateList(str){
+			document.getElementById("outputList").innerHTML += str + "<br>";
+		}
+		
+		function expand(tab){
+			document.getElementById("menu0").style.display = "none";
+			document.getElementById("menu1").style.display = "none";
+			document.getElementById("menu2").style.display = "none";
+			
+			if(open[tab]){
+				open[0] = false;
+				open[1] = false;
+				open[2] = false;
+				currentTab = -1;
+			}
+			else{
+				open[0] = false;
+				open[1] = false;
+				open[2] = false;
+				currentTab = tab;
+				open[currentTab] = true;
+				document.getElementById("menu"+tab).style.display = "block";
+			}
+		}
+	
+		function searchButton(tab){
+			document.getElementById("outputDiv").style.display = "block";
+			clearList();
+			
+			if(tab == 0){
+				var e = document.getElementById("select0");
+				var option = e.options[e.selectedIndex].value;
+				if(option == "option0"){
+					var value = document.getElementById("tab0input0").value.toLowerCase();
+					if(value != ""){
+						var F = function(str) {
+							return a1(value, str);
+						}
+						evaluate(F);
+					}
+				}
+				else if(option == "option1"){
+					var value = document.getElementById("tab0input0").value.toLowerCase();
+					if(value != ""){
+						var F = function(str) {
+							return a2(value, str);
+						}
+						evaluate(F);
+					}
+				}
+			}
+			else if(tab == 1){
+				var value0 = document.getElementById("tab1input0").value.toLowerCase();
+				var value1 = document.getElementById("tab1input1").value;
+				if(value0 != "" && value1 != ""){
+					var F = function(str) {
+						return b1(value0, value1, str);
+					}
+					evaluate(F);
+				}
+			}
+			else if(tab == 2){
+				var e = document.getElementById("select2");
+				var option = e.options[e.selectedIndex].value;
+				if(option == "option0"){
+					var value = document.getElementById("tab2input0").value;
+					if(value != ""){
+						var F = function(str) {
+							return r1(value, str);
+						}
+						evaluate(F);
+					}
+				}
+				else if(option == "option1"){
+					var value = document.getElementById("tab2input0").value;
+					if(value != ""){
+						var F = function(str) {
+							return m1(value, str);
+						}
+						evaluate(F);
+					}
+				}
+			}
+		}
+	
+		// **EVAL FUNCTIONS**
+		function a1(prefix, str){
+			if(str.length >= prefix.length && str.substring(0,prefix.length) == prefix){
+				return true;
+			}
+		}
+		
+		function a2(suffix, str){
+			if(str.length >= suffix.length && str.substring(str.length-suffix.length,str.length) == suffix){
+				return true;
+			}
+		}
+		
+		function b1(value0, value1, str){
+			return str.split(value0).length > value1;
+		}
+		
+		function r1(regex, str){
+			var pattern = new RegExp(regex);
+			return r2(pattern, str);
+		}
+		
+		function r2(pattern, str){
+			return pattern.test(str);
+		}
+		
+		function m1(mask, str){
+			if(mask.length != str.length) return false;
+			
+			var map = {};
+			for(var i=0; i<mask.length; i++){
+				var maskChar = mask.charAt(i);
+				var strChar = str.charAt(i);
+				if(maskChar in map && map[maskChar] != strChar) return false;
+				else if(!(maskChar in map)) map[maskChar] = strChar;
+			}
+			
+			return true;
+		}
+		
+		// **MAIN CODE**
+		function evaluate(F){
+			console.time();
+		
+			clearList();
+			
+			var limit = 1000;
+			var output = [];
+			var length = words.length;
+			for(var i=0; i<length && output.length < limit; i++){
+				var str = words[i];
+				if(F(str)){
+					output[output.length] = str;
+					updateList(str);
+				}
+			}
+			
+			updateList("");
+			updateList("");
+			
+			console.timeEnd();
+		}
+	
+	</script>
+	
+
+
+</body></html>
