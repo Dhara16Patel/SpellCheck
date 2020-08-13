@@ -1,4 +1,4 @@
-// Created by Michael Wehar
+
 var max_num_of_items = 5;
 var lower_thresh = 0.7;
 var buffered_word = "";
