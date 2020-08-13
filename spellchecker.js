@@ -1,4 +1,4 @@
-// Created by Michael Wehar
+
 var valid_word_list;
 
 function set_valid_word_list(word_list){
